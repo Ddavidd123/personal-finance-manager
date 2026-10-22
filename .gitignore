@@ -1,0 +1,16 @@
+#Python privremeni fajlovi
+__pycache__/
+*.pyc
+
+#Virtuelno okruzenje
+.venv/
+venv/
+
+#PyCharm podesavanja
+.idea/
+
+# Log fajlovi
+*.log
+
+# Lokalni finansijski podaci
+data/*.json
