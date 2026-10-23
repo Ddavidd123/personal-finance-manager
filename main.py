@@ -3,6 +3,7 @@ from finance.transactions import (
     dodaj_transakciju,
     izracunaj_stanje
 )
+from finance.storage import sacuvaj_transakcije
 
 def prikazi_meni() -> None:
     print("===== PERSONAL FINANCE MANAGER =====")
@@ -32,6 +33,9 @@ def pokreni_aplikaciju() -> None:
                     iznos,
                     opis
                 )
+
+                sacuvaj_transakcije(transakcije)
+
                 print("Prihod je uspesno dodat!")
             except ValueError as greska:
                 print(f"Greska: {greska}")
@@ -47,6 +51,9 @@ def pokreni_aplikaciju() -> None:
                     iznos,
                     opis
                 )
+
+                sacuvaj_transakcije(transakcije)
+
                 print("Rashod uspesno dodat!")
             except ValueError as greska:
                 print(f"Greska: {greska}")
