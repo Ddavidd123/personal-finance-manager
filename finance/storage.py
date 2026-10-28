@@ -13,3 +13,15 @@ def sacuvaj_transakcije(transakcije: list[Transakcija]) -> None:
 
     with DATA_FILE.open("w", encoding="utf-8") as fajl:
         json.dump(transakcije,fajl, ensure_ascii=False, indent = 4)
+
+
+def ucitaj_transakcije() -> list[Transakcija]:
+
+
+    if not DATA_FILE.exists():
+        return []
+
+    with DATA_FILE.open("r", encoding="utf-8") as fajl:
+        podaci = json.load(fajl)
+
+    return podaci

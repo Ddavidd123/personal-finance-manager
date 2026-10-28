@@ -3,7 +3,11 @@ from finance.transactions import (
     dodaj_transakciju,
     izracunaj_stanje
 )
-from finance.storage import sacuvaj_transakcije
+from finance.storage import (
+    sacuvaj_transakcije,
+    ucitaj_transakcije
+
+)
 
 def prikazi_meni() -> None:
     print("===== PERSONAL FINANCE MANAGER =====")
@@ -14,7 +18,7 @@ def prikazi_meni() -> None:
     print("0. Izlaz")
 
 def pokreni_aplikaciju() -> None:
-    transakcije: list[Transakcija] = []
+    transakcije: list[Transakcija] = ucitaj_transakcije()
 
     while True:
 
