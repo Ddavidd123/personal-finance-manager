@@ -18,7 +18,13 @@ def prikazi_meni() -> None:
     print("0. Izlaz")
 
 def pokreni_aplikaciju() -> None:
-    transakcije: list[Transakcija] = ucitaj_transakcije()
+
+    try:
+        transakcije: list[Transakcija] = ucitaj_transakcije()
+
+    except ValueError as greska:
+        print(f"Greska pri ucitavanju: {greska}")
+        return
 
     while True:
 

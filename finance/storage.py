@@ -21,7 +21,13 @@ def ucitaj_transakcije() -> list[Transakcija]:
     if not DATA_FILE.exists():
         return []
 
-    with DATA_FILE.open("r", encoding="utf-8") as fajl:
-        podaci = json.load(fajl)
+    try:
+
+        with DATA_FILE.open("r", encoding="utf-8") as fajl:
+            podaci = json.load(fajl)
+
+    except json.JSONDecodeError:
+        raise ValueError("Fajl sa transakcijama je ostecen!")
+
 
     return podaci
