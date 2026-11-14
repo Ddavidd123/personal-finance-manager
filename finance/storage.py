@@ -29,5 +29,22 @@ def ucitaj_transakcije() -> list[Transakcija]:
     except json.JSONDecodeError:
         raise ValueError("Fajl sa transakcijama je ostecen!")
 
+    #Validacije
+    if not isinstance(podaci, list):
+        raise ValueError("Podaci moraju biti lista transakcija!")
+
+    for transakcija in podaci:
+        if not isinstance(transakcija, dict):
+            raise ValueError("Svaka transakcija mora biti recnik!")
+
+        if "tip" not in transakcija:
+            raise ValueError("Nedostaje tip transakcije!")
+
+        if "iznos" not in transakcija:
+            raise ValueError("Nedostaje iznos transakcije")
+
+        if "opis" not in transakcija:
+            raise ValueError("Nedostaje opis transakcije")
 
     return podaci
+
