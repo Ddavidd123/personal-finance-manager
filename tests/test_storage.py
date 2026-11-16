@@ -52,3 +52,27 @@ def test_ucitaj_transakcije_pogresan_format(tmp_path, monkeypatch):
 
     with pytest.raises(ValueError):
         storage.ucitaj_transakcije()
+
+def test_ucitaj_transakcije_prazan_opis(tmp_path, monkeypatch):
+    test_fajl = tmp_path / "prazan_opis.json"
+
+    test_fajl.write_text(
+        '[{"tip": "rashod", "iznos": 1500.0, "opis": "   "}]',
+        encoding="utf-8"
+    )
+
+    monkeypatch.setattr(storage,"DATA_FILE", test_fajl)
+
+    with pytest.raises(ValueError):
+        storage.ucitaj_transakcije()
+
+def test_ucitaj_transakcije_negativan_iznos(tmp_path, monkeypatch):
+    test_fajl = tmp_path / "negativan_iznos.json"
+
+    test_fajl.write_text('[{"tip": "rashod", "iznos": -1600, "opis": "namirnice"}]',
+                         encoding="utf-8")
+
+    monkeypatch.setattr(storage, "DATA_FILE", test_fajl)
+
+    with pytest.raises(ValueError):
+        storage.ucitaj_transakcije()
