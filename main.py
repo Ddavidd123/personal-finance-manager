@@ -1,3 +1,4 @@
+import logging
 from finance.transactions import (
     Transakcija,
     dodaj_transakciju,
@@ -9,6 +10,17 @@ from finance.storage import (
 
 )
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)s | %(message)s",
+    handlers=[
+        logging.FileHandler("app.log", encoding="utf-8"),
+        logging.StreamHandler()
+    ]
+)
+
+logger = logging.getLogger(__name__)
+
 def prikazi_meni() -> None:
     print("===== PERSONAL FINANCE MANAGER =====")
     print("1. Dodaj prihod")
@@ -17,12 +29,31 @@ def prikazi_meni() -> None:
     print("4. Prikazi sve transakcije")
     print("0. Izlaz")
 
+
+def prikazi_transakcije(transakcije: list[Transakcija]) -> None:
+    if not transakcije:
+        print("\nNema unetih transakcija.")
+        return
+
+    print("\n===== SVE TRANSAKCIJE =====")
+
+    for broj, transakcija in enumerate(transakcije, start=1):
+        tip = transakcija["tip"].upper()
+        iznos = transakcija["iznos"]
+        opis = transakcija["opis"]
+
+        print(f"{broj}. {tip} | {iznos:.2f} RSD | {opis}")
+
+    print("==========================")
 def pokreni_aplikaciju() -> None:
+
+    logger.info("Personal finance manager je pokrenut!")
 
     try:
         transakcije: list[Transakcija] = ucitaj_transakcije()
 
     except ValueError as greska:
+        logger.error("Neuspesno ucitavanje transakcija: %s", greska)
         print(f"Greska pri ucitavanju: {greska}")
         return
 
@@ -73,11 +104,12 @@ def pokreni_aplikaciju() -> None:
             print(f"Trenutno stanje: {stanje:.2f} RSD")
 
         elif izbor == "4":
-            print(transakcije)
+            prikazi_transakcije(transakcije)
 
 
 
         elif izbor == "0":
+            logger.info("Korisnik je zatvorio aplikaciju")
             print("Dovidjenja!")
             break
         else:

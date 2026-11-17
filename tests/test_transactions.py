@@ -74,3 +74,13 @@ def test_dodaj_transakciju_uspesno():
     assert transakcije[0]["iznos"] == 5000.0
 
     assert transakcije[0]["opis"] == "Bonus"
+
+def test_dodaj_transakciju_prazan_opis():
+    transakcije = []
+
+
+    with pytest.raises(ValueError):
+        dodaj_transakciju(transakcije, "prihod", 500.0, "")
+
+
+    assert transakcije == []

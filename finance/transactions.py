@@ -15,6 +15,9 @@ def dodaj_transakciju(transakcije: list[Transakcija],
     if iznos <= 0:
         raise ValueError("Iznos mora biti veci od 0")
 
+    if not isinstance(opis,str) or not opis.strip():
+        raise ValueError("Opis mora biti neprazan tekst!")
+
     nova_transakcija: Transakcija = {
         "tip": tip,
         "iznos": iznos,
