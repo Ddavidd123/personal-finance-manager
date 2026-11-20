@@ -17,3 +17,37 @@ def kreiraj_bazu() -> None:
             );
             """
         )
+
+
+def dodaj_transakciju_u_bazu(
+    tip: str,
+    iznos: float,
+    opis: str
+    ) -> None:
+
+    with sqlite3.connect(DB_FILE) as konekcija:
+        konekcija.execute(
+            """
+            INSERT INTO transakcije (tip,iznos,opis)
+            VALUES (?, ?, ?)
+            """,
+            (tip, iznos, opis)
+        )
+
+def ucitaj_transakcije_iz_baze() -> list[tuple]:
+    with sqlite3.connect(DB_FILE) as konekcija:
+        kursor = konekcija.execute(
+            "SELECT id, tip, iznos, opis FROM transakcije"
+
+        )
+
+        return kursor.fetchall()
+
+if __name__ == "__main__":
+    kreiraj_bazu()
+
+    transakcije = ucitaj_transakcije_iz_baze()
+
+    for transakcija in transakcije:
+        print(transakcija)
+
